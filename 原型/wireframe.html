@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今日时光 - 线框原型图</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .control-btn {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .control-btn:hover {
+            background: #f5f5f5;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Main Content */
+        .main-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .time-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .time-display {
+            margin: 30px 0;
+        }
+
+        .seconds-number {
+            font-size: 72px;
+            font-weight: 300;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .seconds-label {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        /* Progress Bar */
+        .progress-section {
+            margin: 30px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #f0f0f0;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 6px;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+        }
+
+        .progress-label {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Time Info */
+        .time-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 20px;
+            font-weight: 500;
+            color: #333;
+            font-family: 'SF Mono', Monaco, monospace;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 1s infinite;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 10px 15px;
+            }
+
+            .logo {
+                font-size: 16px;
+            }
+
+            .control-btn {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+
+            .control-btn span.text {
+                display: none;
+            }
+
+            .time-card {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .seconds-number {
+                font-size: 48px;
+            }
+
+            .seconds-label {
+                font-size: 16px;
+            }
+
+            .time-info {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            background: #ddd;
+            border-radius: 13px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .theme-toggle.dark {
+            background: #667eea;
+        }
+
+        .theme-toggle::after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: left 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-toggle.dark::after {
+            left: 26px;
+        }
+
+        /* Dark Theme */
+        body.dark-theme {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        body.dark-theme .header {
+            background: rgba(26, 26, 46, 0.95);
+            color: #fff;
+        }
+
+        body.dark-theme .control-btn {
+            background: #2a2a4e;
+            border-color: #3a3a5e;
+            color: #fff;
+        }
+
+        body.dark-theme .control-btn:hover {
+            background: #3a3a5e;
+        }
+
+        body.dark-theme .time-card {
+            background: rgba(26, 26, 46, 0.95);
+            color: #fff;
+        }
+
+        body.dark-theme .seconds-label,
+        body.dark-theme .progress-label,
+        body.dark-theme .info-label {
+            color: #aaa;
+        }
+
+        body.dark-theme .info-value {
+            color: #fff;
+        }
+
+        body.dark-theme .progress-bar {
+            background: #2a2a4e;
+        }
+
+        body.dark-theme .time-info {
+            border-top-color: #3a3a5e;
+        }
+
+        /* Dropdown */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 5px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            display: none;
+            min-width: 200px;
+            z-index: 1000;
+        }
+
+        .dropdown.active .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background: #f5f5f5;
+        }
+
+        .dropdown-item.active {
+            background: #667eea;
+            color: white;
+        }
+
+        body.dark-theme .dropdown-menu {
+            background: #2a2a4e;
+            border-color: #3a3a5e;
+        }
+
+        body.dark-theme .dropdown-item {
+            border-bottom-color: #3a3a5e;
+        }
+
+        body.dark-theme .dropdown-item:hover {
+            background: #3a3a5e;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">⏰ HowLongToday</div>
+        <div class="controls">
+            <!-- Timezone Selector -->
+            <div class="dropdown" id="timezoneDropdown">
+                <button class="control-btn" onclick="toggleDropdown('timezoneDropdown')">
+                    🌍 <span class="text">UTC+8</span> ▼
+                </button>
+                <div class="dropdown-menu">
+                    <div class="dropdown-item active">UTC+8 北京/上海</div>
+                    <div class="dropdown-item">UTC+9 东京/首尔</div>
+                    <div class="dropdown-item">UTC+0 伦敦</div>
+                    <div class="dropdown-item">UTC-5 纽约</div>
+                    <div class="dropdown-item">UTC-8 洛杉矶</div>
+                </div>
+            </div>
+
+            <!-- Language Selector -->
+            <div class="dropdown" id="languageDropdown">
+                <button class="control-btn" onclick="toggleDropdown('languageDropdown')">
+                    🌐 <span class="text">中文</span> ▼
+                </button>
+                <div class="dropdown-menu">
+                    <div class="dropdown-item active">简体中文</div>
+                    <div class="dropdown-item">English</div>
+                    <div class="dropdown-item">日本語</div>
+                    <div class="dropdown-item">한국어</div>
+                    <div class="dropdown-item">Español</div>
+                </div>
+            </div>
+
+            <!-- Theme Toggle -->
+            <div class="theme-toggle" id="themeToggle" onclick="toggleTheme()"></div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <div class="time-card">
+            <!-- Main Time Display -->
+            <div class="time-display">
+                <div class="seconds-number" id="secondsDisplay">43,215.789</div>
+                <div class="seconds-label">秒已流逝</div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-section">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar" style="width: 50%"></div>
+                </div>
+                <div class="progress-label">今日已过 <span id="percentageDisplay">50.02%</span></div>
+            </div>
+
+            <!-- Additional Info -->
+            <div class="time-info">
+                <div class="info-item">
+                    <div class="info-label">当前时间</div>
+                    <div class="info-value" id="currentTime">12:00:15</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">剩余时间</div>
+                    <div class="info-value" id="remainingTime">11:59:45</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">今日日期</div>
+                    <div class="info-value" id="todayDate">2025-01-12</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Initialize
+        let isDarkTheme = false;
+        let refreshInterval;
+
+        // Update time function
+        function updateTime() {
+            const now = new Date();
+            const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const elapsedMs = now - todayStart;
+            const totalMs = 24 * 60 * 60 * 1000;
+            
+            // Calculate seconds
+            const seconds = elapsedMs / 1000;
+            const percentage = (elapsedMs / totalMs) * 100;
+            
+            // Update displays
+            document.getElementById('secondsDisplay').textContent = seconds.toLocaleString('zh-CN', {
+                minimumFractionDigits: 3,
+                maximumFractionDigits: 3
+            });
+            
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('percentageDisplay').textContent = percentage.toFixed(2) + '%';
+            
+            // Current time
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString('zh-CN');
+            
+            // Remaining time
+            const remainingMs = totalMs - elapsedMs;
+            const remainingHours = Math.floor(remainingMs / (1000 * 60 * 60));
+            const remainingMinutes = Math.floor((remainingMs % (1000 * 60 * 60)) / (1000 * 60));
+            const remainingSeconds = Math.floor((remainingMs % (1000 * 60)) / 1000);
+            document.getElementById('remainingTime').textContent = 
+                `${String(remainingHours).padStart(2, '0')}:${String(remainingMinutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+            
+            // Today's date
+            document.getElementById('todayDate').textContent = now.toLocaleDateString('zh-CN');
+        }
+
+        // Theme toggle
+        function toggleTheme() {
+            isDarkTheme = !isDarkTheme;
+            document.body.classList.toggle('dark-theme');
+            document.getElementById('themeToggle').classList.toggle('dark');
+        }
+
+        // Dropdown toggle
+        function toggleDropdown(id) {
+            const dropdown = document.getElementById(id);
+            dropdown.classList.toggle('active');
+            
+            // Close other dropdowns
+            document.querySelectorAll('.dropdown').forEach(d => {
+                if (d.id !== id) {
+                    d.classList.remove('active');
+                }
+            });
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown').forEach(d => {
+                    d.classList.remove('active');
+                });
+            }
+        });
+
+        // Handle dropdown item clicks
+        document.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const dropdown = this.closest('.dropdown');
+                dropdown.querySelector('.dropdown-item.active')?.classList.remove('active');
+                this.classList.add('active');
+                dropdown.classList.remove('active');
+                
+                // Update button text
+                const btnText = dropdown.querySelector('.control-btn .text');
+                if (btnText) {
+                    btnText.textContent = this.textContent.split(' ')[0];
+                }
+            });
+        });
+
+        // Start updates
+        updateTime();
+        refreshInterval = setInterval(updateTime, 100); // Update every 100ms
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            clearInterval(refreshInterval);
+        });
+    </script>
+</body>
+</html>

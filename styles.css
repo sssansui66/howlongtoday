@@ -209,30 +209,108 @@ body::after {
     align-items: center;
 }
 
+/* Apple-style Select Dropdowns */
 .control-btn {
-    padding: 6px 14px;
-    background-color: rgba(0, 0, 0, 0.04);
+    /* Reset default select appearance */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    
+    /* Apple-style dimensions and spacing */
+    padding: 8px 32px 8px 12px;
+    min-width: 120px;
+    height: 36px;
+    
+    /* Apple-style background with subtle glass effect */
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(255, 255, 255, 0.85) 100%
+    );
+    backdrop-filter: blur(10px) saturate(150%);
+    -webkit-backdrop-filter: blur(10px) saturate(150%);
+    
+    /* Text styling */
     color: var(--color-text-primary);
-    border: none;
-    border-radius: var(--border-radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+    letter-spacing: -0.01em;
+    text-align: left;
+    
+    /* Apple-style border and shadows */
+    border: 0.5px solid rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    box-shadow: 
+        0 1px 3px rgba(0, 0, 0, 0.04),
+        0 0 0 0.5px rgba(255, 255, 255, 0.5) inset,
+        0 1px 1px rgba(0, 0, 0, 0.06);
+    
+    /* Interactions */
     cursor: pointer;
     transition: all var(--transition-fast);
-    font-size: 13px;
-    font-weight: 500;
-    font-family: inherit;
-    letter-spacing: 0.02em;
     outline: none;
+    position: relative;
+    
+    /* Custom dropdown arrow */
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23666666' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 10px 6px;
 }
 
+/* Hover state - Subtle highlight */
 .control-btn:hover {
-    background-color: var(--color-primary);
-    color: white;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 113, 227, 0.25);
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(255, 255, 255, 0.9) 100%
+    );
+    border-color: rgba(0, 0, 0, 0.16);
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.06),
+        0 0 0 0.5px rgba(255, 255, 255, 0.6) inset,
+        0 2px 3px rgba(0, 0, 0, 0.08);
+    transform: translateY(-0.5px);
 }
 
+/* Focus state - Apple blue ring */
+.control-btn:focus {
+    border-color: var(--color-primary);
+    box-shadow: 
+        0 0 0 3px rgba(0, 122, 255, 0.15),
+        0 1px 3px rgba(0, 0, 0, 0.04),
+        0 0 0 0.5px rgba(255, 255, 255, 0.5) inset;
+    background: rgba(255, 255, 255, 0.98);
+}
+
+/* Active/pressed state */
 .control-btn:active {
+    background: linear-gradient(
+        180deg,
+        rgba(245, 245, 247, 0.9) 0%,
+        rgba(245, 245, 247, 0.85) 100%
+    );
     transform: translateY(0);
+    box-shadow: 
+        0 0.5px 2px rgba(0, 0, 0, 0.06),
+        0 0 0 0.5px rgba(255, 255, 255, 0.4) inset;
+}
+
+/* Disabled state */
+.control-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Option styling for better consistency */
+.control-btn option {
+    padding: 8px 12px;
+    background: white;
+    color: var(--color-text-primary);
+    font-size: 14px;
+    font-weight: 400;
 }
 
 /* Main Container */
@@ -367,6 +445,61 @@ body::after {
     
     /* Slightly stronger glow in dark mode */
     filter: drop-shadow(0 2px 20px rgba(10, 132, 255, 0.2));
+}
+
+/* Dark mode styles for Apple-style select dropdowns */
+[data-theme="dark"] .control-btn {
+    background: linear-gradient(
+        180deg,
+        rgba(30, 30, 30, 0.9) 0%,
+        rgba(28, 28, 28, 0.85) 100%
+    );
+    color: rgba(255, 255, 255, 0.9);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 
+        0 1px 3px rgba(0, 0, 0, 0.3),
+        0 0 0 0.5px rgba(255, 255, 255, 0.05) inset,
+        0 1px 1px rgba(0, 0, 0, 0.4);
+    
+    /* Update arrow color for dark mode */
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23999999' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+[data-theme="dark"] .control-btn:hover {
+    background: linear-gradient(
+        180deg,
+        rgba(35, 35, 35, 0.95) 0%,
+        rgba(32, 32, 32, 0.9) 100%
+    );
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.4),
+        0 0 0 0.5px rgba(255, 255, 255, 0.08) inset;
+}
+
+[data-theme="dark"] .control-btn:focus {
+    border-color: #0A84FF;
+    box-shadow: 
+        0 0 0 3px rgba(10, 132, 255, 0.25),
+        0 1px 3px rgba(0, 0, 0, 0.3),
+        0 0 0 0.5px rgba(255, 255, 255, 0.1) inset;
+    background: rgba(30, 30, 30, 0.98);
+}
+
+[data-theme="dark"] .control-btn:active {
+    background: linear-gradient(
+        180deg,
+        rgba(25, 25, 25, 0.9) 0%,
+        rgba(22, 22, 22, 0.85) 100%
+    );
+    box-shadow: 
+        0 0.5px 2px rgba(0, 0, 0, 0.5),
+        0 0 0 0.5px rgba(255, 255, 255, 0.03) inset;
+}
+
+[data-theme="dark"] .control-btn option {
+    background: #1C1C1E;
+    color: rgba(255, 255, 255, 0.9);
 }
 
 /* Apple-style Subtle Shine Animation */

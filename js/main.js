@@ -1,6 +1,5 @@
 class TimeTracker {
     constructor() {
-        this.refreshRate = 100;
         this.animationId = null;
         this.timezone = 'local';
         this.language = this.detectLanguage();
@@ -23,16 +22,6 @@ class TimeTracker {
     }
 
     setupEventListeners() {
-        const refreshRateSlider = document.getElementById('refresh-rate');
-        const refreshRateValue = document.getElementById('refresh-rate-value');
-        
-        refreshRateSlider.addEventListener('input', (e) => {
-            this.refreshRate = parseInt(e.target.value);
-            refreshRateValue.textContent = `${this.refreshRate}ms`;
-            localStorage.setItem('refreshRate', this.refreshRate);
-            this.restartTracking();
-        });
-
         const languageSelector = document.getElementById('language-selector');
         languageSelector.value = this.language;
         languageSelector.addEventListener('change', (e) => {
@@ -52,13 +41,6 @@ class TimeTracker {
     }
 
     loadSettings() {
-        const savedRefreshRate = localStorage.getItem('refreshRate');
-        if (savedRefreshRate) {
-            this.refreshRate = parseInt(savedRefreshRate);
-            document.getElementById('refresh-rate').value = this.refreshRate;
-            document.getElementById('refresh-rate-value').textContent = `${this.refreshRate}ms`;
-        }
-
         const savedTimezone = localStorage.getItem('timezone');
         if (savedTimezone) {
             this.timezone = savedTimezone;
@@ -193,9 +175,12 @@ class TimeTracker {
         const timeData = this.calculateElapsedTime();
         const now = new Date();
 
-        // Update seconds display
+        // Update seconds display with smooth transition
         const secondsDisplay = document.getElementById('seconds-display');
-        secondsDisplay.textContent = timeData.elapsedSeconds.toFixed(3);
+        const newValue = timeData.elapsedSeconds.toFixed(2);
+        if (secondsDisplay.textContent !== newValue) {
+            secondsDisplay.textContent = newValue;
+        }
 
         // Update progress bar
         const progressBar = document.getElementById('progress-bar');
@@ -269,7 +254,7 @@ class TimeTracker {
             this.updateDisplay();
             this.animationId = setTimeout(() => {
                 requestAnimationFrame(animate);
-            }, this.refreshRate);
+            }, 10); // 固定10ms刷新率(0.01秒)
         };
         animate();
     }
@@ -281,10 +266,6 @@ class TimeTracker {
         }
     }
 
-    restartTracking() {
-        this.stopTracking();
-        this.startTracking();
-    }
 }
 
 // Initialize when DOM is ready

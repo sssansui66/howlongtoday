@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" fill="none">
+  <g fill="black">
+    <!-- Outer ring -->
+    <circle cx="512" cy="562" r="360" fill="none" stroke="black" stroke-width="80"/>
+    <!-- Crown -->
+    <rect x="400" y="42" rx="36" ry="36" width="224" height="96" stroke="black" stroke-width="80" fill="none"/>
+    <!-- Side pusher -->
+    <circle cx="208" cy="816" r="46" stroke="black" stroke-width="80" fill="none"/>
+    <!-- Check -->
+    <path d="M 350 554 L 468 670 L 663 461" stroke="black" stroke-width="80" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

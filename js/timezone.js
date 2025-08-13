@@ -43,22 +43,40 @@ class TimezoneManager {
     }
 
     getTimezoneName(timezone) {
-        // This will be replaced by i18n translation
+        // Get current language from i18n if available
+        const currentLang = window.i18n ? window.i18n.currentLanguage : 'en';
+        
         const names = {
-            'UTC': 'UTC',
-            'Asia/Shanghai': '北京时间 (UTC+8)',
-            'Asia/Tokyo': '东京时间 (UTC+9)',
-            'America/New_York': '纽约时间 (UTC-5)',
-            'Europe/London': '伦敦时间 (UTC+0)',
-            'Europe/Paris': '巴黎时间 (UTC+1)',
-            'Australia/Sydney': '悉尼时间 (UTC+11)',
-            'Europe/Moscow': '莫斯科时间 (UTC+3)',
-            'Asia/Dubai': '迪拜时间 (UTC+4)',
-            'Asia/Singapore': '新加坡时间 (UTC+8)',
-            'America/Los_Angeles': '洛杉矶时间 (UTC-8)'
+            'en': {
+                'UTC': 'UTC',
+                'Asia/Shanghai': 'Beijing Time (UTC+8)',
+                'Asia/Tokyo': 'Tokyo Time (UTC+9)',
+                'America/New_York': 'New York Time (UTC-5)',
+                'Europe/London': 'London Time (UTC+0)',
+                'Europe/Paris': 'Paris Time (UTC+1)',
+                'Australia/Sydney': 'Sydney Time (UTC+11)',
+                'Europe/Moscow': 'Moscow Time (UTC+3)',
+                'Asia/Dubai': 'Dubai Time (UTC+4)',
+                'Asia/Singapore': 'Singapore Time (UTC+8)',
+                'America/Los_Angeles': 'Los Angeles Time (UTC-8)'
+            },
+            'zh-CN': {
+                'UTC': 'UTC',
+                'Asia/Shanghai': '北京时间 (UTC+8)',
+                'Asia/Tokyo': '东京时间 (UTC+9)',
+                'America/New_York': '纽约时间 (UTC-5)',
+                'Europe/London': '伦敦时间 (UTC+0)',
+                'Europe/Paris': '巴黎时间 (UTC+1)',
+                'Australia/Sydney': '悉尼时间 (UTC+11)',
+                'Europe/Moscow': '莫斯科时间 (UTC+3)',
+                'Asia/Dubai': '迪拜时间 (UTC+4)',
+                'Asia/Singapore': '新加坡时间 (UTC+8)',
+                'America/Los_Angeles': '洛杉矶时间 (UTC-8)'
+            }
         };
         
-        return names[timezone.value] || timezone.value;
+        const langNames = names[currentLang] || names['en'];
+        return langNames[timezone.value] || timezone.value;
     }
 
     detectUserTimezone() {
@@ -178,4 +196,15 @@ class TimezoneManager {
 // Initialize timezone manager
 document.addEventListener('DOMContentLoaded', () => {
     window.timezoneManager = new TimezoneManager();
+    
+    // Update timezone names when language changes
+    if (window.i18n) {
+        const originalSetLanguage = window.i18n.setLanguage.bind(window.i18n);
+        window.i18n.setLanguage = function(lang) {
+            originalSetLanguage(lang);
+            if (window.timezoneManager) {
+                window.timezoneManager.populateTimezoneSelector();
+            }
+        };
+    }
 });

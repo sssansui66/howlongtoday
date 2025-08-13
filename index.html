@@ -5,16 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="实时显示今天已经过去了多少秒 - HowLongToday 今日时光">
     <meta name="keywords" content="时间,计时器,今天,秒数,time,timer,today,seconds">
-    <title>今日时光 - 今天已经过去了多少秒？</title>
+    <title>How Long Today? - How many seconds have passed today?</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="hlt_brand_kit/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" href="hlt_brand_kit/favicon-32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="hlt_brand_kit/apple-touch-icon-180.png" sizes="180x180">
+    <link rel="manifest" href="site.webmanifest">
+    
+    <!-- Safari pinned tab -->
+    <link rel="mask-icon" href="hlt_brand_kit/safari-pinned-tab.svg" color="#2F3A45">
+    
+    <!-- Open Graph / Twitter -->
+    <meta property="og:title" content="How Long Today? - 今日时光">
+    <meta property="og:description" content="实时显示今天已经过去了多少秒 - Track how many seconds have passed today">
+    <meta property="og:image" content="hlt_brand_kit/og-image-1200x630.jpg">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How Long Today? - 今日时光">
+    <meta name="twitter:description" content="实时显示今天已经过去了多少秒 - Track how many seconds have passed today">
+    <meta name="twitter:image" content="hlt_brand_kit/og-image-1200x630.jpg">
+    
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
+    <!-- Background Glow Layer -->
+    <div class="glow-layer"></div>
+    
     <header class="header">
         <div class="header-content">
             <div class="logo">
-                <span class="logo-icon">⏱️</span>
-                <span class="logo-text" data-i18n="logo">今日时光</span>
+                <img src="hlt_brand_kit/hlt_icon_dark_64.png" alt="HLT Logo" class="logo-icon">
+                <span class="logo-text" data-i18n="logo">How Long Today?</span>
             </div>
             <div class="controls">
                 <select id="timezone-selector" class="control-btn" aria-label="选择时区">
@@ -24,9 +47,6 @@
                     <option value="zh-CN">中文</option>
                     <option value="en">English</option>
                 </select>
-                <button id="theme-toggle" class="control-btn icon-btn" aria-label="切换主题">
-                    <span class="theme-icon">🌙</span>
-                </button>
             </div>
         </div>
     </header>
@@ -34,12 +54,13 @@
     <main class="main-container">
         <div class="time-display">
             <div class="seconds-wrapper">
-                <div id="seconds-display" class="seconds-number" aria-live="polite">0.000</div>
-                <div class="seconds-label" data-i18n="seconds.passed">秒已过去</div>
+                <div id="seconds-display" class="seconds-number" aria-live="polite">0.00</div>
+                <div class="seconds-label" data-i18n="seconds.passed">seconds have passed today</div>
             </div>
         </div>
 
         <div class="progress-section">
+            <div class="progress-title">Today's Progress</div>
             <div class="progress-bar-container">
                 <div id="progress-bar" class="progress-bar"></div>
             </div>
@@ -48,24 +69,14 @@
 
         <div class="info-section">
             <div class="info-item">
-                <span class="info-label" data-i18n="current.date">日期：</span>
                 <span id="current-date" class="info-value">2025-08-12</span>
             </div>
+            <div class="info-separator"></div>
             <div class="info-item">
-                <span class="info-label" data-i18n="current.time">当前时间：</span>
                 <span id="current-time" class="info-value">00:00:00</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label" data-i18n="timezone.display">时区：</span>
-                <span id="timezone-display" class="info-value">UTC+8</span>
             </div>
         </div>
 
-        <div class="settings-section">
-            <label for="refresh-rate" class="settings-label" data-i18n="refresh.rate">刷新率：</label>
-            <input type="range" id="refresh-rate" min="10" max="1000" value="100" step="10">
-            <span id="refresh-rate-value">100ms</span>
-        </div>
     </main>
 
     <footer class="footer">
@@ -73,7 +84,6 @@
     </footer>
 
     <script src="js/i18n.js"></script>
-    <script src="js/theme.js"></script>
     <script src="js/timezone.js"></script>
     <script src="js/main.js"></script>
 </body>

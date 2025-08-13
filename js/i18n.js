@@ -3,8 +3,8 @@ class I18n {
         this.currentLanguage = 'zh-CN';
         this.translations = {
             'zh-CN': {
-                'logo': '今日时光',
-                'seconds.passed': '秒已过去',
+                'logo': 'How Long Today?',
+                'seconds.passed': 'seconds have passed today',
                 'current.date': '日期：',
                 'current.time': '当前时间：',
                 'timezone.display': '时区：',
@@ -23,8 +23,8 @@ class I18n {
                 'timezone.losangeles': '洛杉矶时间'
             },
             'en': {
-                'logo': 'HowLongToday',
-                'seconds.passed': 'seconds passed',
+                'logo': 'How Long Today?',
+                'seconds.passed': 'seconds have passed today',
                 'current.date': 'Date:',
                 'current.time': 'Current Time:',
                 'timezone.display': 'Timezone:',
@@ -51,10 +51,13 @@ class I18n {
         document.documentElement.lang = lang;
         
         // Update page title
-        const title = lang === 'zh-CN' 
-            ? '今日时光 - 今天已经过去了多少秒？' 
-            : 'HowLongToday - How many seconds have passed today?';
+        const title = 'How Long Today? - How many seconds have passed today?';
         document.title = title;
+        
+        // Update timezone selector if available
+        if (window.timezoneManager) {
+            window.timezoneManager.populateTimezoneSelector();
+        }
     }
 
     translate(key) {

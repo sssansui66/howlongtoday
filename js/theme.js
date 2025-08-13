@@ -31,9 +31,11 @@ class ThemeManager {
         if (theme === 'dark') {
             document.documentElement.setAttribute('data-theme', 'dark');
             this.updateThemeIcon('☀️');
+            this.updateLogoIcon('hlt_brand_kit/hlt_icon_light_64.png');
         } else {
             document.documentElement.removeAttribute('data-theme');
             this.updateThemeIcon('🌙');
+            this.updateLogoIcon('hlt_brand_kit/hlt_icon_dark_64.png');
         }
 
         localStorage.setItem('theme', theme);
@@ -43,6 +45,13 @@ class ThemeManager {
         const themeIcon = document.querySelector('.theme-icon');
         if (themeIcon) {
             themeIcon.textContent = icon;
+        }
+    }
+
+    updateLogoIcon(src) {
+        const logoIcon = document.querySelector('.logo-icon');
+        if (logoIcon) {
+            logoIcon.src = src;
         }
     }
 

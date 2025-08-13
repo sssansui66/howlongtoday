@@ -315,22 +315,98 @@ body::after {
     z-index: 1;
 }
 
-/* Numbers with system font and wider spacing */
+/* Numbers with Subtle Apple-style Shine Effect */
 .seconds-number {
     font-size: clamp(80px, 15vw, 130px);
     font-weight: 200;
     font-variant-numeric: tabular-nums;
     font-feature-settings: 'tnum' on;
-    background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
+    letter-spacing: 0.03em;
+    line-height: 1;
+    padding: 20px 40px;
+    position: relative;
+    transition: all var(--transition-smooth);
+    
+    /* Subtle blue gradient - Apple style */
+    background: linear-gradient(
+        90deg,
+        #007AFF 0%,
+        #5AC8FA 25%,
+        #007AFF 50%,
+        #0051D5 75%,
+        #007AFF 100%
+    );
+    background-size: 200% 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    letter-spacing: 0.03em;
-    line-height: 1;
-    transition: all var(--transition-smooth);
-    filter: drop-shadow(0 2px 20px rgba(0, 122, 255, 0.15));
-    animation: gentle-breathe 3s ease-in-out infinite;
+    
+    /* Minimal, elegant shadow */
+    text-shadow: 0 2px 20px rgba(0, 122, 255, 0.1);
+    
+    /* Subtle glow effect */
+    filter: drop-shadow(0 2px 15px rgba(0, 122, 255, 0.15));
+    
+    /* Slow, smooth animation */
+    animation: 
+        apple-shine 10s ease-in-out infinite,
+        gentle-breathe 4s ease-in-out infinite;
 }
+
+/* Enhanced effect for dark mode */
+[data-theme="dark"] .seconds-number {
+    /* Slightly brighter gradient for dark backgrounds */
+    background: linear-gradient(
+        90deg,
+        #0A84FF 0%,
+        #64D2FF 25%,
+        #0A84FF 50%,
+        #0051D5 75%,
+        #0A84FF 100%
+    );
+    
+    /* Slightly stronger glow in dark mode */
+    filter: drop-shadow(0 2px 20px rgba(10, 132, 255, 0.2));
+}
+
+/* Apple-style Subtle Shine Animation */
+@keyframes apple-shine {
+    0% {
+        background-position: -200% 50%;
+        opacity: 1;
+    }
+    50% {
+        background-position: 0% 50%;
+        opacity: 0.95;
+    }
+    100% {
+        background-position: 200% 50%;
+        opacity: 1;
+    }
+}
+
+/* Alternative: Rotating Conic Gradient (uncomment to use) */
+/*
+.seconds-wrapper {
+    background: conic-gradient(
+        from 0deg at 50% 50%,
+        #FF00E6 0deg,
+        #00F5FF 60deg,
+        #39FF14 120deg,
+        #FF9F0A 180deg,
+        #FF00E6 240deg,
+        #00F5FF 300deg,
+        #FF00E6 360deg
+    );
+    animation: rotate-gradient 3s linear infinite;
+}
+
+@keyframes rotate-gradient {
+    to {
+        transform: rotate(360deg);
+    }
+}
+*/
 
 @keyframes gentle-breathe {
     0%, 100% { 

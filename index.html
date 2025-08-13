@@ -10,11 +10,16 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
+    <div class="floating-orb orb-1"></div>
+    <div class="floating-orb orb-2"></div>
+    <div class="floating-orb orb-3"></div>
     <header class="header">
         <div class="header-content">
             <div class="logo">
                 <span class="logo-icon">⏱️</span>
-                <span class="logo-text" data-i18n="logo">今日时光</span>
+                <div class="logo-content">
+                    <div class="logo-title" data-i18n="logo.title">今日时光已逝？</div>
+                </div>
             </div>
             <div class="controls">
                 <select id="timezone-selector" class="control-btn" aria-label="选择时区">
@@ -32,39 +37,66 @@
     </header>
 
     <main class="main-container">
-        <div class="time-display">
-            <div class="seconds-wrapper">
-                <div id="seconds-display" class="seconds-number" aria-live="polite">0.000</div>
-                <div class="seconds-label" data-i18n="seconds.passed">秒已过去</div>
+        <h1 class="sr-only" data-i18n="logo.title">今日时光已逝？</h1>
+        <div class="main-card">
+            <div class="time-display">
+                <div class="number-section">
+                    <div class="main-number" id="seconds-display" aria-live="polite" data-value="53,928.61">53,928.61</div>
+                    <div class="number-label">
+                        <span class="unit-text" data-i18n="seconds.unit">seconds</span>
+                        <span class="description-text" data-i18n="have.passed.today">have passed today</span>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="progress-section">
-            <div class="progress-bar-container">
-                <div id="progress-bar" class="progress-bar"></div>
+        <div class="progress-card">
+            <div class="progress-header">
+                <h3 class="progress-title" data-i18n="progress.title">Today's Progress</h3>
+                <p class="progress-subtitle" data-i18n="progress.subtitle">How much of the day has elapsed</p>
             </div>
-            <div id="progress-percentage" class="progress-percentage">0.0%</div>
+            <div class="circular-progress">
+                <svg class="circular-progress-svg" viewBox="0 0 200 200">
+                    <defs>
+                        <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#4facfe;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#00f2fe;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <circle 
+                        class="circular-progress-bg" 
+                        cx="100" 
+                        cy="100" 
+                        r="85" 
+                        fill="none" 
+                        stroke-width="12">
+                    </circle>
+                    <circle 
+                        id="circular-progress-bar"
+                        class="circular-progress-bar" 
+                        cx="100" 
+                        cy="100" 
+                        r="85" 
+                        fill="none" 
+                        stroke-width="12" 
+                        stroke-linecap="round"
+                        stroke-dasharray="534.07" 
+                        stroke-dashoffset="534.07">
+                    </circle>
+                </svg>
+                <div class="circular-progress-text">
+                    <div id="progress-percentage" class="progress-percentage">62.1%</div>
+                    <div class="progress-label" data-i18n="complete">complete</div>
+                </div>
+            </div>
         </div>
 
         <div class="info-section">
-            <div class="info-item">
-                <span class="info-label" data-i18n="current.date">日期：</span>
-                <span id="current-date" class="info-value">2025-08-12</span>
+            <div class="datetime-item">
+                <span id="current-date" class="date-value">2025-08-12</span>
+                <span id="current-time" class="time-value">00:00:00</span>
             </div>
-            <div class="info-item">
-                <span class="info-label" data-i18n="current.time">当前时间：</span>
-                <span id="current-time" class="info-value">00:00:00</span>
-            </div>
-            <div class="info-item">
-                <span class="info-label" data-i18n="timezone.display">时区：</span>
-                <span id="timezone-display" class="info-value">UTC+8</span>
-            </div>
-        </div>
-
-        <div class="settings-section">
-            <label for="refresh-rate" class="settings-label" data-i18n="refresh.rate">刷新率：</label>
-            <input type="range" id="refresh-rate" min="10" max="1000" value="100" step="10">
-            <span id="refresh-rate-value">100ms</span>
+            <div class="emotion-text" data-i18n="emotion.text">每一秒都在书写你的故事</div>
         </div>
     </main>
 

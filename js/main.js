@@ -1,17 +1,38 @@
 class TimeTracker {
     constructor() {
-        this.refreshRate = 100;
+        this.refreshRate = 10;
         this.animationId = null;
         this.timezone = 'local';
         this.language = this.detectLanguage();
+        // Cached DOM references for performance
+        this.dom = {
+            secondsDisplay: null,
+            progressBar: null,
+            progressPercentage: null,
+            currentDate: null,
+            currentTime: null,
+        };
+        // Cached Intl formatters (rebuilt on timezone change)
+        this.formatters = {
+            date: null,
+            time: null,
+        };
+        // Precomputed constants
+        this.CIRCUMFERENCE = 2 * Math.PI * 85; // radius = 85
         this.init();
     }
 
     init() {
+        // Cache DOM nodes once
+        this.dom.secondsDisplay = document.getElementById('seconds-display');
+        this.dom.progressBar = document.getElementById('circular-progress-bar');
+        this.dom.progressPercentage = document.getElementById('progress-percentage');
+        this.dom.currentDate = document.getElementById('current-date');
+        this.dom.currentTime = document.getElementById('current-time');
         this.setupEventListeners();
         this.loadSettings();
+        this.initFormatters();
         this.startTracking();
-        this.updateTimezoneDisplay();
     }
 
     detectLanguage() {
@@ -23,16 +44,6 @@ class TimeTracker {
     }
 
     setupEventListeners() {
-        const refreshRateSlider = document.getElementById('refresh-rate');
-        const refreshRateValue = document.getElementById('refresh-rate-value');
-        
-        refreshRateSlider.addEventListener('input', (e) => {
-            this.refreshRate = parseInt(e.target.value);
-            refreshRateValue.textContent = `${this.refreshRate}ms`;
-            localStorage.setItem('refreshRate', this.refreshRate);
-            this.restartTracking();
-        });
-
         const languageSelector = document.getElementById('language-selector');
         languageSelector.value = this.language;
         languageSelector.addEventListener('change', (e) => {
@@ -47,23 +58,38 @@ class TimeTracker {
         timezoneSelector.addEventListener('change', (e) => {
             this.timezone = e.target.value;
             localStorage.setItem('timezone', this.timezone);
-            this.updateTimezoneDisplay();
+            this.initFormatters();
         });
     }
 
     loadSettings() {
-        const savedRefreshRate = localStorage.getItem('refreshRate');
-        if (savedRefreshRate) {
-            this.refreshRate = parseInt(savedRefreshRate);
-            document.getElementById('refresh-rate').value = this.refreshRate;
-            document.getElementById('refresh-rate-value').textContent = `${this.refreshRate}ms`;
-        }
-
         const savedTimezone = localStorage.getItem('timezone');
         if (savedTimezone) {
             this.timezone = savedTimezone;
             document.getElementById('timezone-selector').value = this.timezone;
         }
+    }
+
+    initFormatters() {
+        // Build formatters only when needed (non-local timezones)
+        if (this.timezone === 'local') {
+            this.formatters.date = null;
+            this.formatters.time = null;
+            return;
+        }
+        this.formatters.date = new Intl.DateTimeFormat('en-CA', {
+            timeZone: this.timezone,
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        });
+        this.formatters.time = new Intl.DateTimeFormat('en-US', {
+            timeZone: this.timezone,
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        });
     }
 
     getTodayStart() {
@@ -193,74 +219,35 @@ class TimeTracker {
         const timeData = this.calculateElapsedTime();
         const now = new Date();
 
-        // Update seconds display
-        const secondsDisplay = document.getElementById('seconds-display');
-        secondsDisplay.textContent = timeData.elapsedSeconds.toFixed(3);
+        // Update seconds display with formatted number and data attribute
+        const formattedSeconds = timeData.elapsedSeconds.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        this.dom.secondsDisplay.textContent = formattedSeconds;
+        this.dom.secondsDisplay.setAttribute('data-value', formattedSeconds);
 
-        // Update progress bar
-        const progressBar = document.getElementById('progress-bar');
-        progressBar.style.width = `${Math.min(timeData.percentage, 100)}%`;
+        // Update circular progress bar
+        const offset = this.CIRCUMFERENCE - (timeData.percentage / 100) * this.CIRCUMFERENCE;
+        this.dom.progressBar.style.strokeDashoffset = offset;
 
         // Update percentage
-        const progressPercentage = document.getElementById('progress-percentage');
-        progressPercentage.textContent = `${timeData.percentage.toFixed(1)}%`;
+        this.dom.progressPercentage.textContent = `${timeData.percentage.toFixed(1)}%`;
 
         // Update current date based on timezone
-        const currentDateElement = document.getElementById('current-date');
         if (this.timezone === 'local') {
             const year = now.getFullYear();
             const month = String(now.getMonth() + 1).padStart(2, '0');
             const day = String(now.getDate()).padStart(2, '0');
-            currentDateElement.textContent = `${year}-${month}-${day}`;
+            this.dom.currentDate.textContent = `${year}-${month}-${day}`;
         } else {
             // Format date in target timezone
-            const formatter = new Intl.DateTimeFormat('en-CA', {
-                timeZone: this.timezone,
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit'
-            });
-            currentDateElement.textContent = formatter.format(now);
+            this.dom.currentDate.textContent = this.formatters.date.format(now);
         }
 
         // Update current time based on timezone
-        const currentTime = document.getElementById('current-time');
         if (this.timezone === 'local') {
-            currentTime.textContent = this.formatTime(now);
+            this.dom.currentTime.textContent = this.formatTime(now);
         } else {
             // Format current time in target timezone
-            const formatter = new Intl.DateTimeFormat('en-US', {
-                timeZone: this.timezone,
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: false
-            });
-            currentTime.textContent = formatter.format(now);
-        }
-    }
-
-    updateTimezoneDisplay() {
-        const timezoneDisplay = document.getElementById('timezone-display');
-        if (this.timezone === 'local') {
-            const offset = new Date().getTimezoneOffset();
-            const offsetHours = Math.abs(Math.floor(offset / 60));
-            const offsetMinutes = Math.abs(offset % 60);
-            const sign = offset <= 0 ? '+' : '-';
-            const offsetString = offsetMinutes > 0 
-                ? `UTC${sign}${offsetHours}:${String(offsetMinutes).padStart(2, '0')}`
-                : `UTC${sign}${offsetHours}`;
-            timezoneDisplay.textContent = offsetString;
-        } else {
-            // Get timezone abbreviation
-            const now = new Date();
-            const formatter = new Intl.DateTimeFormat('en-US', {
-                timeZone: this.timezone,
-                timeZoneName: 'short'
-            });
-            const parts = formatter.formatToParts(now);
-            const timeZoneName = parts.find(part => part.type === 'timeZoneName');
-            timezoneDisplay.textContent = timeZoneName ? timeZoneName.value : this.timezone;
+            this.dom.currentTime.textContent = this.formatters.time.format(now);
         }
     }
 

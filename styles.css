@@ -84,11 +84,11 @@ body::after {
 /* Primary Cool Blue Glow - Top Left */
 body::before {
     background: radial-gradient(
-        ellipse 800px 600px at 15% 30%,
-        rgba(99, 179, 237, 0.25) 0%,
-        rgba(66, 153, 225, 0.15) 20%,
-        rgba(49, 130, 206, 0.08) 40%,
-        rgba(43, 108, 176, 0.03) 60%,
+        ellipse 60vw 45vw at -5% 35%,
+        rgba(99, 179, 237, 0.12) 0%,
+        rgba(66, 153, 225, 0.08) 20%,
+        rgba(49, 130, 206, 0.04) 40%,
+        rgba(43, 108, 176, 0.01) 60%,
         transparent 80%
     );
     filter: blur(80px);
@@ -100,16 +100,16 @@ body::before {
 /* Secondary Soft Purple Glow - Bottom Right */
 body::after {
     background: radial-gradient(
-        ellipse 700px 500px at 85% 70%,
-        rgba(196, 181, 253, 0.15) 0%,
-        rgba(165, 180, 252, 0.08) 25%,
-        rgba(147, 197, 253, 0.04) 50%,
+        ellipse 45vw 35vw at 115% 80%,
+        rgba(196, 181, 253, 0.30) 0%,
+        rgba(165, 180, 252, 0.16) 25%,
+        rgba(147, 197, 253, 0.08) 50%,
         transparent 75%
     );
     filter: blur(100px);
     transform: translate3d(0, 0, 0);
     will-change: transform;
-    opacity: 0.6;
+    opacity: 0.85;
 }
 
 /* Additional subtle glow layer - Floating Orb */

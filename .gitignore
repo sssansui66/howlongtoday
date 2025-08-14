@@ -27,3 +27,11 @@ build/
 # Temporary files
 *.tmp
 temp/
+
+# Design iteration folder
+设计迭代过程/
+
+# Image processing tools
+merge_images.py
+merge_images_grid.py
+run_merge.bat

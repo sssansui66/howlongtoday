@@ -690,6 +690,266 @@ body::after {
     letter-spacing: 0.02em;
 }
 
+/* Time Reference Section */
+.time-reference-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md) var(--spacing-xxl);
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.time-reference-container {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.75) 0%,
+        rgba(255, 255, 255, 0.65) 50%,
+        rgba(250, 250, 252, 0.75) 100%
+    );
+    backdrop-filter: blur(20px) saturate(120%);
+    -webkit-backdrop-filter: blur(20px) saturate(120%);
+    border: 0.5px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.03),
+        0 2px 12px rgba(0, 0, 0, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    transition: all var(--transition-medium);
+    overflow: hidden;
+}
+
+.time-reference-container:hover {
+    transform: translateY(-1px);
+    box-shadow: 
+        0 14px 45px rgba(0, 0, 0, 0.04),
+        0 3px 15px rgba(0, 0, 0, 0.06);
+}
+
+.time-reference-title {
+    text-align: center;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--spacing-lg);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    opacity: 0.85;
+}
+
+.time-reference-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.time-reference-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.time-reference-table thead th {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    text-align: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+.time-reference-table tbody tr {
+    transition: all var(--transition-fast);
+    position: relative;
+}
+
+.time-reference-table tbody tr:not(:last-child) td {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.time-reference-table tbody tr:hover {
+    background: rgba(0, 122, 255, 0.02);
+}
+
+.time-reference-table tbody tr:hover td {
+    color: var(--color-text-primary);
+}
+
+.time-reference-table td {
+    padding: var(--spacing-md) var(--spacing-md);
+    vertical-align: middle;
+    text-align: center;
+    transition: all var(--transition-fast);
+}
+
+.time-value {
+    white-space: nowrap;
+    min-width: 120px;
+    text-align: center;
+}
+
+.time-number {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-primary);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+    margin-right: 4px;
+}
+
+.time-unit {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--color-text-secondary);
+    letter-spacing: 0.02em;
+}
+
+.concept-text {
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--color-text-primary);
+    letter-spacing: 0.01em;
+}
+
+.activity-text {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+}
+
+/* Time Reference Section - Dark Mode Support */
+[data-theme="dark"] .time-reference-container {
+    background: linear-gradient(
+        135deg,
+        rgba(30, 30, 30, 0.75) 0%,
+        rgba(28, 28, 28, 0.65) 50%,
+        rgba(32, 32, 32, 0.75) 100%
+    );
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .time-reference-table thead th {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
+}
+
+[data-theme="dark"] .time-reference-table tbody tr:not(:last-child) td {
+    border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .time-reference-table tbody tr:hover {
+    background: rgba(10, 132, 255, 0.05);
+}
+
+[data-theme="dark"] .time-number {
+    color: #0A84FF;
+}
+
+[data-theme="dark"] .concept-text {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="dark"] .activity-text,
+[data-theme="dark"] .time-unit {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Time Reference Responsive Design */
+@media (max-width: 768px) {
+    .time-reference-section {
+        padding: 0 var(--spacing-sm) var(--spacing-xl);
+    }
+    
+    .time-reference-container {
+        padding: var(--spacing-lg);
+        border-radius: var(--border-radius);
+    }
+    
+    .time-reference-title {
+        font-size: 16px;
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .time-reference-table thead th {
+        font-size: 12px;
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+    
+    .time-reference-table td {
+        padding: var(--spacing-sm) var(--spacing-sm);
+    }
+    
+    .time-number {
+        font-size: 16px;
+    }
+    
+    .concept-text {
+        font-size: 14px;
+    }
+    
+    .activity-text {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .time-reference-table {
+        font-size: 13px;
+    }
+    
+    .time-reference-table thead {
+        display: none;
+    }
+    
+    .time-reference-table tbody tr {
+        display: block;
+        margin-bottom: var(--spacing-md);
+        padding: var(--spacing-sm);
+        background: rgba(0, 0, 0, 0.02);
+        border-radius: var(--border-radius-sm);
+        border: 1px solid rgba(0, 0, 0, 0.04);
+    }
+    
+    .time-reference-table tbody tr:not(:last-child) td {
+        border-bottom: none;
+    }
+    
+    .time-reference-table td {
+        display: block;
+        padding: var(--spacing-xs) 0;
+        text-align: left;
+    }
+    
+    .time-value {
+        font-weight: 600;
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .concept-text {
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .concept-text::before {
+        content: "🎯 ";
+        opacity: 0.6;
+    }
+    
+    .activity-text::before {
+        content: "⏱ ";
+        opacity: 0.6;
+    }
+    
+    [data-theme="dark"] .time-reference-table tbody tr {
+        background: rgba(255, 255, 255, 0.03);
+        border-color: rgba(255, 255, 255, 0.08);
+    }
+}
+
 /* Footer */
 .footer {
     text-align: center;

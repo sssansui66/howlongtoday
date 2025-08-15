@@ -20,7 +20,23 @@ class I18n {
                 'timezone.moscow': '莫斯科时间',
                 'timezone.dubai': '迪拜时间',
                 'timezone.singapore': '新加坡时间',
-                'timezone.losangeles': '洛杉矶时间'
+                'timezone.losangeles': '洛杉矶时间',
+                'time.reference.title': '时间尺度参考',
+                'time.reference.duration': '时间长度',
+                'time.reference.concept': '概念对照',
+                'time.reference.activities': '代表性活动',
+                'time.reference.second': '秒',
+                'time.reference.seconds': '秒',
+                'time.reference.1s.concept': '眨眼四次',
+                'time.reference.1s.activity': '眨眼、提醒自己保持专注',
+                'time.reference.10s.concept': '几次深呼吸',
+                'time.reference.10s.activity': '调整坐姿、微笑、深呼吸',
+                'time.reference.100s.concept': '1 分 40 秒',
+                'time.reference.100s.activity': '两分钟法则，快速回复、整理',
+                'time.reference.1000s.concept': '≈16.7 分钟',
+                'time.reference.1000s.activity': '看 TED 演讲、简版番茄专注',
+                'time.reference.10000s.concept': '≈2 小时 46 分钟',
+                'time.reference.10000s.activity': '看完电影《沙丘2》(1倍速)/《泰坦尼克号》(1.2倍速)'
             },
             'en': {
                 'logo': 'How Long Today?',
@@ -40,7 +56,23 @@ class I18n {
                 'timezone.moscow': 'Moscow Time',
                 'timezone.dubai': 'Dubai Time',
                 'timezone.singapore': 'Singapore Time',
-                'timezone.losangeles': 'Los Angeles Time'
+                'timezone.losangeles': 'Los Angeles Time',
+                'time.reference.title': 'Time Scale Reference',
+                'time.reference.duration': 'Duration',
+                'time.reference.concept': 'Conceptual Reference',
+                'time.reference.activities': 'Representative Activities',
+                'time.reference.second': 'second',
+                'time.reference.seconds': 'seconds',
+                'time.reference.1s.concept': 'Four blinks',
+                'time.reference.1s.activity': 'Blink, remind yourself to stay focused',
+                'time.reference.10s.concept': 'A few deep breaths',
+                'time.reference.10s.activity': 'Adjust posture, smile, deep breathing',
+                'time.reference.100s.concept': '1 min 40 sec',
+                'time.reference.100s.activity': 'Two-minute rule, quick reply, organize',
+                'time.reference.1000s.concept': '≈16.7 minutes',
+                'time.reference.1000s.activity': 'Watch TED talk, mini Pomodoro session',
+                'time.reference.10000s.concept': '≈2 hours 46 minutes',
+                'time.reference.10000s.activity': 'Watch a movie: Dune 2 (1x speed) / Titanic (1.2x speed)'
             }
         };
     }
